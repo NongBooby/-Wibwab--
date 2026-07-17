@@ -4,6 +4,7 @@ import HomePage from './pages/customer/HomePage';
 import ProductListPage from './pages/customer/ProductListPage';
 import ProductDetailPage from './pages/customer/ProductDetailPage';
 import CartPage from './pages/customer/CartPage';
+import CheckoutPage from './pages/customer/CheckoutPage';
 
 // ── ฝั่งพนักงาน (ธีม Teal) ──
 import StaffLayout from './components/common/StaffLayout';
@@ -32,7 +33,8 @@ function App() {
       <Route path="/products" element={<ProductListPage />} />
       <Route path="/products/:id" element={<ProductDetailPage />} />
       <Route path="/cart" element={<CartPage />} />
-      {/* TODO: /checkout, /orders, /login, /register */}
+      <Route path="/checkout" element={<CheckoutPage />} />
+      {/* TODO: /orders, /login, /register */}
 
       {/* ── ฝั่งพนักงาน (ธีม Teal) ──
           หมายเหตุ: ยังไม่ห่อ ProtectedRoute เพราะ backend/auth ยังไม่เสร็จ

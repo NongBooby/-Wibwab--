@@ -15,7 +15,7 @@ export default function Pagination({
   totalItems,
   pageSize,
   onPageChange,
-  itemLabel = 'results',
+  itemLabel = 'รายการ',
 }) {
   const start = totalItems === 0 ? 0 : (page - 1) * pageSize + 1;
   const end = Math.min(page * pageSize, totalItems);
@@ -25,7 +25,7 @@ export default function Pagination({
   return (
     <div className="staff-pagination">
       <p>
-        Showing {start} to {end} of {totalItems} {itemLabel}
+        แสดง {start} ถึง {end} จาก {totalItems} {itemLabel}
       </p>
       <div className="staff-pagination__controls">
         <button

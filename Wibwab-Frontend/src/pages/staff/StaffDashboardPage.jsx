@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react';
 
 // Mock data — แทนที่ด้วยผลลัพธ์จาก GET /api/staff/dashboard เมื่อ backend พร้อม
 const MOCK_KPIS = [
-  { icon: 'payments', label: 'Total Revenue', value: '$45,200.00', trend: '+12%' },
-  { icon: 'pending_actions', label: 'Pending Orders', value: '28' },
-  { icon: 'group_add', label: 'New Customers', value: '156', trend: '+5%' },
-  { icon: 'warning', label: 'Out of Stock Items', value: '4', iconTone: 'error' },
+  { icon: 'payments', label: 'ยอดขายรวม', value: '$45,200.00', trend: '+12%' },
+  { icon: 'pending_actions', label: 'คำสั่งซื้อรอดำเนินการ', value: '28' },
+  { icon: 'group_add', label: 'ลูกค้าใหม่', value: '156', trend: '+5%' },
+  { icon: 'warning', label: 'สินค้าหมดสต็อก', value: '4', iconTone: 'error' },
 ];
 
 const MOCK_RECENT_ORDERS = [
@@ -43,12 +43,12 @@ export default function StaffDashboardPage() {
     <div>
       <div className="staff-page-header">
         <div>
-          <h1>Dashboard</h1>
-          <p>Overview of today's operations.</p>
+          <h1>แดชบอร์ด</h1>
+          <p>ภาพรวมการดำเนินงานวันนี้</p>
         </div>
         <div className="staff-page-header__actions">
-          <button className="staff-btn staff-btn--secondary">Export Report</button>
-          <button className="staff-btn staff-btn--primary">New Order</button>
+          <button className="staff-btn staff-btn--secondary">ส่งออกรายงาน</button>
+          <button className="staff-btn staff-btn--primary">สร้างคำสั่งซื้อใหม่</button>
         </div>
       </div>
 
@@ -62,18 +62,18 @@ export default function StaffDashboardPage() {
         {/* Recent Orders */}
         <div className="staff-card">
           <div className="staff-card__header">
-            <h3>Recent Orders</h3>
-            <button className="staff-card__link">View All</button>
+            <h3>คำสั่งซื้อล่าสุด</h3>
+            <button className="staff-card__link">ดูทั้งหมด</button>
           </div>
           <div className="staff-table-wrap">
             <table className="staff-table">
               <thead>
                 <tr>
-                  <th>Order ID</th>
-                  <th>Customer</th>
-                  <th>Date</th>
-                  <th>Total</th>
-                  <th>Status</th>
+                  <th>รหัสคำสั่งซื้อ</th>
+                  <th>ลูกค้า</th>
+                  <th>วันที่</th>
+                  <th>ยอดรวม</th>
+                  <th>สถานะ</th>
                 </tr>
               </thead>
               <tbody>
@@ -96,8 +96,8 @@ export default function StaffDashboardPage() {
         {/* Top Selling Products */}
         <div className="staff-card" style={{ display: 'flex', flexDirection: 'column' }}>
           <div className="staff-card__header">
-            <h3>Top Selling Products</h3>
-            <button className="staff-icon-btn" aria-label="more">
+            <h3>สินค้าขายดี</h3>
+            <button className="staff-icon-btn" aria-label="เพิ่มเติม">
               <span className="material-symbols-outlined">more_vert</span>
             </button>
           </div>
@@ -113,13 +113,13 @@ export default function StaffDashboardPage() {
                     {p.category} • SKU: {p.sku}
                   </p>
                 </div>
-                <div className="mono" style={{ fontSize: 13, whiteSpace: 'nowrap' }}>{p.sold} Sold</div>
+                <div className="mono" style={{ fontSize: 13, whiteSpace: 'nowrap' }}>ขายแล้ว {p.sold}</div>
               </div>
             ))}
           </div>
           <div style={{ padding: 16, paddingTop: 0 }}>
             <button className="staff-btn staff-btn--ghost" style={{ width: '100%', justifyContent: 'center' }}>
-              View Inventory Report
+              ดูรายงานคลังสินค้า
             </button>
           </div>
         </div>

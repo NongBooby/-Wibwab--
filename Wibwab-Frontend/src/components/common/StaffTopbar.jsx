@@ -10,7 +10,7 @@ import { useState } from 'react';
  *   onSearch    - callback(query: string) เรียกตอนพิมพ์ค้นหา (optional)
  *   hasAlerts   - true = โชว์จุดแดงที่ปุ่มแจ้งเตือน
  */
-export default function StaffTopbar({ title = 'LuxeJewel Admin', onSearch, hasAlerts = true }) {
+export default function StaffTopbar({ title = 'ระบบพนักงาน วิบวับ', onSearch, hasAlerts = true }) {
   const [query, setQuery] = useState('');
   // const { user, logout } = useAuth();
 
@@ -30,7 +30,7 @@ export default function StaffTopbar({ title = 'LuxeJewel Admin', onSearch, hasAl
           <span className="material-symbols-outlined">search</span>
           <input
             type="text"
-            placeholder="Search orders, SKUs..."
+            placeholder="ค้นหาคำสั่งซื้อ, SKU..."
             value={query}
             onChange={handleChange}
           />

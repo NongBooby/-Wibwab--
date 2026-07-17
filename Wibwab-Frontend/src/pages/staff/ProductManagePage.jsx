@@ -45,18 +45,18 @@ export default function ProductManagePage() {
   return (
     <div>
       <div className="staff-breadcrumb">
-        <a href="/staff/products">Products</a>
+        <a href="/staff/products">สินค้า</a>
         <span className="material-symbols-outlined" style={{ fontSize: 16 }}>chevron_right</span>
-        <span className="staff-breadcrumb__current">Add New Product</span>
+        <span className="staff-breadcrumb__current">เพิ่มสินค้าใหม่</span>
       </div>
 
       <div className="staff-page-header">
-        <h1 style={{ fontSize: 30 }}>Add Product</h1>
+        <h1 style={{ fontSize: 30 }}>เพิ่มสินค้า</h1>
         <div className="staff-page-header__actions">
-          <button type="button" className="staff-btn staff-btn--secondary">Discard</button>
+          <button type="button" className="staff-btn staff-btn--secondary">ยกเลิก</button>
           <button type="submit" form="product-form" className="staff-btn staff-btn--primary">
             <span className="material-symbols-outlined">save</span>
-            Save Product
+            บันทึกสินค้า
           </button>
         </div>
       </div>
@@ -69,18 +69,18 @@ export default function ProductManagePage() {
             <div className="staff-card__header">
               <h3>
                 <span className="material-symbols-outlined">info</span>
-                Basic Information
+                ข้อมูลพื้นฐาน
               </h3>
             </div>
             <div className="staff-card__body">
               <div className="staff-form-group">
                 <label className="staff-form-label" htmlFor="product-name">
-                  Product Name <span className="required">*</span>
+                  ชื่อสินค้า <span className="required">*</span>
                 </label>
                 <input
                   id="product-name"
                   className="staff-form-control"
-                  placeholder="e.g. 18k Gold Diamond Eternity Ring"
+                  placeholder="เช่น แหวนเพชรทองคำ 18K"
                   value={form.name}
                   onChange={handleChange('name')}
                   required
@@ -88,12 +88,12 @@ export default function ProductManagePage() {
               </div>
 
               <div className="staff-form-group">
-                <label className="staff-form-label" htmlFor="product-description">Description</label>
+                <label className="staff-form-label" htmlFor="product-description">รายละเอียดสินค้า</label>
                 <textarea
                   id="product-description"
                   className="staff-form-control"
                   rows={4}
-                  placeholder="Detailed product description..."
+                  placeholder="รายละเอียดสินค้าอย่างละเอียด..."
                   value={form.description}
                   onChange={handleChange('description')}
                 />
@@ -102,7 +102,7 @@ export default function ProductManagePage() {
               <div className="staff-form-row staff-form-row--2col">
                 <div className="staff-form-group" style={{ marginBottom: 0 }}>
                   <label className="staff-form-label" htmlFor="base-price">
-                    Base Price (THB) <span className="required">*</span>
+                    ราคาเริ่มต้น (บาท) <span className="required">*</span>
                   </label>
                   <div style={{ position: 'relative' }}>
                     <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--staff-text-muted)' }}>฿</span>
@@ -119,7 +119,7 @@ export default function ProductManagePage() {
                   </div>
                 </div>
                 <div className="staff-form-group" style={{ marginBottom: 0 }}>
-                  <label className="staff-form-label" htmlFor="sku">SKU Code</label>
+                  <label className="staff-form-label" htmlFor="sku">รหัส SKU</label>
                   <input
                     id="sku"
                     className="staff-form-control mono"
@@ -137,29 +137,29 @@ export default function ProductManagePage() {
             <div className="staff-card__header">
               <h3>
                 <span className="material-symbols-outlined">image</span>
-                Product Media
+                รูปภาพสินค้า
               </h3>
             </div>
             <div className="staff-card__body">
               <div className="staff-form-group">
-                <label className="staff-form-label">Primary Image</label>
+                <label className="staff-form-label">รูปภาพหลัก</label>
                 <div className="staff-dropzone">
                   <div className="staff-dropzone__icon">
                     <span className="material-symbols-outlined" style={{ fontSize: 32 }}>cloud_upload</span>
                   </div>
-                  <p style={{ margin: '0 0 4px', fontSize: 14 }}>Click to upload or drag and drop</p>
+                  <p style={{ margin: '0 0 4px', fontSize: 14 }}>คลิกเพื่ออัปโหลด หรือลากไฟล์มาวาง</p>
                   <p style={{ margin: 0, fontSize: 13, color: 'var(--staff-text-muted)' }}>
-                    SVG, PNG, JPG or GIF (max. 800x400px)
+                    SVG, PNG, JPG หรือ GIF (ขนาดไม่เกิน 800x400px)
                   </p>
                 </div>
               </div>
 
               <div>
-                <label className="staff-form-label">Gallery Images</label>
+                <label className="staff-form-label">คลังรูปภาพเพิ่มเติม</label>
                 <div className="staff-media-grid">
                   <div className="staff-media-upload">
                     <span className="material-symbols-outlined" style={{ fontSize: 24 }}>add_photo_alternate</span>
-                    <span style={{ fontSize: 11 }}>Add More</span>
+                    <span style={{ fontSize: 11 }}>เพิ่มรูป</span>
                   </div>
                 </div>
               </div>
@@ -174,44 +174,44 @@ export default function ProductManagePage() {
             <div className="staff-card__header">
               <h3>
                 <span className="material-symbols-outlined">category</span>
-                Organization
+                การจัดหมวดหมู่
               </h3>
             </div>
             <div className="staff-card__body">
               <div className="staff-form-group">
-                <label className="staff-form-label" htmlFor="category">Category</label>
+                <label className="staff-form-label" htmlFor="category">หมวดหมู่</label>
                 <select
                   id="category"
                   className="staff-form-control"
                   value={form.category}
                   onChange={handleChange('category')}
                 >
-                  <option value="" disabled>Select Category</option>
-                  <option value="rings">Rings</option>
-                  <option value="necklaces">Necklaces</option>
-                  <option value="earrings">Earrings</option>
-                  <option value="bracelets">Bracelets</option>
+                  <option value="" disabled>เลือกหมวดหมู่</option>
+                  <option value="rings">แหวน</option>
+                  <option value="necklaces">สร้อยคอ</option>
+                  <option value="earrings">ต่างหู</option>
+                  <option value="bracelets">กำไล</option>
                 </select>
               </div>
 
               <div className="staff-form-group">
-                <label className="staff-form-label" htmlFor="material">Primary Material</label>
+                <label className="staff-form-label" htmlFor="material">วัสดุหลัก</label>
                 <select
                   id="material"
                   className="staff-form-control"
                   value={form.material}
                   onChange={handleChange('material')}
                 >
-                  <option value="" disabled>Select Material</option>
-                  <option value="gold_18k">18k Yellow Gold</option>
-                  <option value="white_gold_18k">18k White Gold</option>
-                  <option value="platinum">Platinum</option>
-                  <option value="silver">Sterling Silver</option>
+                  <option value="" disabled>เลือกวัสดุ</option>
+                  <option value="gold_18k">ทองคำ 18K</option>
+                  <option value="white_gold_18k">ทองคำขาว 18K</option>
+                  <option value="platinum">แพลทินัม</option>
+                  <option value="silver">เงินแท้</option>
                 </select>
               </div>
 
               <div className="staff-form-group" style={{ marginBottom: 0 }}>
-                <label className="staff-form-label">Product Status</label>
+                <label className="staff-form-label">สถานะสินค้า</label>
                 <div className="staff-radio-group">
                   <label>
                     <input
@@ -221,7 +221,7 @@ export default function ProductManagePage() {
                       checked={form.status === 'active'}
                       onChange={handleChange('status')}
                     />
-                    Active
+                    เปิดขาย
                   </label>
                   <label>
                     <input
@@ -231,7 +231,7 @@ export default function ProductManagePage() {
                       checked={form.status === 'draft'}
                       onChange={handleChange('status')}
                     />
-                    Draft
+                    ฉบับร่าง
                   </label>
                 </div>
               </div>
@@ -243,16 +243,16 @@ export default function ProductManagePage() {
             <div className="staff-card__header">
               <h3>
                 <span className="material-symbols-outlined">layers</span>
-                Variants
+                ตัวเลือกสินค้า
               </h3>
               <button type="button" className="staff-card__link">
-                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>add</span> Add Option
+                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>add</span> เพิ่มตัวเลือก
               </button>
             </div>
             <div className="staff-card__body">
               <div style={{ border: '1px solid var(--staff-border)', borderRadius: 4, padding: 16, marginBottom: 16 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
-                  <span style={{ fontSize: 12, fontWeight: 600 }}>Ring Size</span>
+                  <span style={{ fontSize: 12, fontWeight: 600 }}>ไซซ์แหวน</span>
                   <button type="button" className="staff-icon-btn" style={{ width: 24, height: 24 }} aria-label="ลบตัวเลือก">
                     <span className="material-symbols-outlined" style={{ fontSize: 16 }}>close</span>
                   </button>
@@ -268,7 +268,7 @@ export default function ProductManagePage() {
                   ))}
                   <input
                     type="text"
-                    placeholder="Add size..."
+                    placeholder="เพิ่มไซซ์..."
                     value={newSize}
                     onChange={(e) => setNewSize(e.target.value)}
                     onKeyDown={addSize}
@@ -281,8 +281,8 @@ export default function ProductManagePage() {
                 <table className="staff-table" style={{ minWidth: 'auto' }}>
                   <thead>
                     <tr>
-                      <th>Variant</th>
-                      <th className="align-right">Price Modifier</th>
+                      <th>ตัวเลือก</th>
+                      <th className="align-right">ส่วนต่างราคา</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -291,7 +291,7 @@ export default function ProductManagePage() {
                         <td>{size}</td>
                         <td className="align-right">
                           {idx === 0 ? (
-                            <span style={{ color: 'var(--staff-text-muted)' }}>Base Price</span>
+                            <span style={{ color: 'var(--staff-text-muted)' }}>ราคาเริ่มต้น</span>
                           ) : (
                             <input
                               type="number"
@@ -315,10 +315,10 @@ export default function ProductManagePage() {
       {/* ปุ่ม Save/Discard แบบเต็มความกว้างสำหรับมือถือ */}
       <div className="staff-mobile-only" style={{ gap: 12, marginTop: 32, paddingBottom: 32 }}>
         <button type="button" className="staff-btn staff-btn--secondary" style={{ flex: 1, justifyContent: 'center' }}>
-          Discard
+          ยกเลิก
         </button>
         <button type="submit" form="product-form" className="staff-btn staff-btn--primary" style={{ flex: 1, justifyContent: 'center' }}>
-          Save Product
+          บันทึกสินค้า
         </button>
       </div>
 

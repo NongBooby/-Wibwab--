@@ -2,10 +2,10 @@ import { NavLink } from 'react-router-dom';
 
 // เมนูฝั่งพนักงาน — เพิ่ม/ลด item ได้ตรงนี้ที่เดียว
 const NAV_ITEMS = [
-  { to: '/staff/dashboard', label: 'Dashboard', icon: 'dashboard' },
-  { to: '/staff/orders', label: 'Orders', icon: 'shopping_cart' },
-  { to: '/staff/inventory', label: 'Inventory', icon: 'inventory_2' },
-  { to: '/staff/products', label: 'Products', icon: 'diamond' },
+  { to: '/staff/dashboard', label: 'แดชบอร์ด', icon: 'dashboard' },
+  { to: '/staff/orders', label: 'คำสั่งซื้อ', icon: 'shopping_cart' },
+  { to: '/staff/inventory', label: 'คลังสินค้า', icon: 'inventory_2' },
+  { to: '/staff/products', label: 'สินค้า', icon: 'diamond' },
 ];
 
 /**
@@ -16,10 +16,10 @@ export default function StaffSidebar() {
   return (
     <nav className="staff-sidebar">
       <div className="staff-sidebar__brand">
-        <div className="staff-sidebar__logo">L</div>
+        <div className="staff-sidebar__logo">ว</div>
         <div>
-          <h1>LuxeJewel</h1>
-          <p>Staff Portal</p>
+          <h1>วิบวับ</h1>
+          <p>ระบบพนักงาน</p>
         </div>
       </div>
 
@@ -39,10 +39,10 @@ export default function StaffSidebar() {
       </div>
 
       <div className="staff-sidebar__status">
-        <p>System Status</p>
+        <p>สถานะระบบ</p>
         <div className="staff-sidebar__status-row">
           <span className="staff-sidebar__dot" />
-          <span>All systems operational</span>
+          <span>ระบบทำงานปกติ</span>
         </div>
       </div>
     </nav>

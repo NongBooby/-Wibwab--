@@ -4,26 +4,26 @@ import Pagination from '../../components/dashboard/Pagination';
 // TODO: import { getInventory, updateVariantStock } from '../../api/staff.api';
 
 const MOCK_KPIS = [
-  { icon: 'inventory_2', label: 'Total SKUs', value: '1,248' },
-  { icon: 'warning', label: 'Low Stock Alerts', value: '24', iconTone: 'error', note: '+3 since yesterday', noteTone: 'up' },
-  { icon: 'payments', label: 'Total Inventory Value', value: '$2.4M', iconTone: 'accent' },
-  { icon: 'local_shipping', label: 'Pending Restock', value: '86' },
+  { icon: 'inventory_2', label: 'จำนวน SKU ทั้งหมด', value: '1,248' },
+  { icon: 'warning', label: 'แจ้งเตือนสต็อกต่ำ', value: '24', iconTone: 'error', note: '+3 จากเมื่อวาน', noteTone: 'up' },
+  { icon: 'payments', label: 'มูลค่าสต็อกรวม', value: '$2.4M', iconTone: 'accent' },
+  { icon: 'local_shipping', label: 'รอเติมสต็อก', value: '86' },
 ];
 
 // สต็อกจริงต้องดึงจากตาราง product_variants (สต็อกอยู่ระดับ variant เสมอ ตาม PROJECT_STRUCTURE)
 const MOCK_COLLECTIONS = [
   {
-    name: 'Eternity Rings',
+    name: 'แหวนอีเทอร์นิตี้',
     variants: [
-      { sku: 'RG-ETB-050', name: 'Classic Eternity Band', color: 'Rose Gold', size: '5', price: '$1,250.00', stock: 14, hasImage: true },
-      { sku: 'YG-ETB-060', name: 'Classic Eternity Band', color: 'Gold', size: '6', price: '$1,250.00', stock: 2, hasImage: false },
-      { sku: 'WG-ETB-070', name: 'Classic Eternity Band', color: 'Silver', size: '7', price: '$1,150.00', stock: 8, hasImage: false },
+      { sku: 'RG-ETB-050', name: 'แหวนอีเทอร์นิตี้คลาสสิก', color: 'โรสโกลด์', size: '5', price: '$1,250.00', stock: 14, hasImage: true },
+      { sku: 'YG-ETB-060', name: 'แหวนอีเทอร์นิตี้คลาสสิก', color: 'ทอง', size: '6', price: '$1,250.00', stock: 2, hasImage: false },
+      { sku: 'WG-ETB-070', name: 'แหวนอีเทอร์นิตี้คลาสสิก', color: 'เงิน', size: '7', price: '$1,150.00', stock: 8, hasImage: false },
     ],
   },
   {
-    name: 'Pendant Necklaces',
+    name: 'สร้อยคอจี้',
     variants: [
-      { sku: 'YG-PN-001', name: 'Solitaire Pendant', color: 'Gold', size: 'OS', price: '$850.00', stock: 0, hasImage: true },
+      { sku: 'YG-PN-001', name: 'จี้โซลิแทร์', color: 'ทอง', size: 'OS', price: '$850.00', stock: 0, hasImage: true },
     ],
   },
 ];
@@ -55,21 +55,21 @@ export default function InventoryPage() {
     <div>
       <div className="staff-page-header">
         <div>
-          <h2>Inventory Management</h2>
-          <p>Manage product variants, track stock levels, and perform quick updates.</p>
+          <h2>จัดการคลังสินค้า</h2>
+          <p>จัดการตัวเลือกสินค้า ติดตามระดับสต็อก และอัปเดตข้อมูลอย่างรวดเร็ว</p>
         </div>
         <div className="staff-page-header__actions">
           <button className="staff-btn staff-btn--secondary">
             <span className="material-symbols-outlined">filter_list</span>
-            Filters
+            ตัวกรอง
           </button>
           <button className="staff-btn staff-btn--secondary">
             <span className="material-symbols-outlined">download</span>
-            Export
+            ส่งออก
           </button>
           <button className="staff-btn staff-btn--primary">
             <span className="material-symbols-outlined">add</span>
-            New Product
+            เพิ่มสินค้าใหม่
           </button>
         </div>
       </div>
@@ -82,13 +82,13 @@ export default function InventoryPage() {
 
       <div className="staff-card">
         <div className="staff-card__header">
-          <h3 style={{ fontWeight: 400 }}>Variant Stock Overview</h3>
+          <h3 style={{ fontWeight: 400 }}>ภาพรวมสต็อกตามตัวเลือกสินค้า</h3>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'var(--staff-text-muted)' }}>
-            <span>Sort by:</span>
+            <span>เรียงตาม:</span>
             <select className="staff-select" style={{ border: 'none' }}>
-              <option>Stock Level (Low to High)</option>
-              <option>Collection Name</option>
-              <option>SKU (A-Z)</option>
+              <option>ระดับสต็อก (น้อยไปมาก)</option>
+              <option>ชื่อคอลเลกชัน</option>
+              <option>รหัส SKU (A-Z)</option>
             </select>
           </div>
         </div>
@@ -100,20 +100,20 @@ export default function InventoryPage() {
                 <th style={{ width: 40 }}>
                   <input type="checkbox" />
                 </th>
-                <th>Product Name</th>
-                <th>SKU</th>
-                <th>Color</th>
-                <th>Size</th>
-                <th className="align-right">Price</th>
-                <th className="align-right">Stock</th>
-                <th className="align-center">Quick Edit</th>
+                <th>ชื่อสินค้า</th>
+                <th>รหัส SKU</th>
+                <th>สี</th>
+                <th>ไซซ์</th>
+                <th className="align-right">ราคา</th>
+                <th className="align-right">สต็อก</th>
+                <th className="align-center">แก้ไขด่วน</th>
               </tr>
             </thead>
             <tbody>
               {collections.map((collection, cIdx) => (
                 <>
                   <tr key={collection.name} className="staff-table__group-row">
-                    <td colSpan={8}>Collection: {collection.name}</td>
+                    <td colSpan={8}>คอลเลกชัน: {collection.name}</td>
                   </tr>
                   {collection.variants.map((variant, vIdx) => {
                     const tone = stockTone(variant.stock);
@@ -186,7 +186,7 @@ export default function InventoryPage() {
           totalItems={TOTAL_SKUS}
           pageSize={PAGE_SIZE}
           onPageChange={setPage}
-          itemLabel="SKUs"
+          itemLabel="SKU"
         />
       </div>
     </div>

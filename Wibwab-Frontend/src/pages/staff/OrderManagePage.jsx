@@ -52,17 +52,17 @@ export default function OrderManagePage() {
     <div>
       <div className="staff-page-header">
         <div>
-          <h1 style={{ fontSize: 24 }}>Orders</h1>
-          <p>Manage and track customer jewelry orders.</p>
+          <h1 style={{ fontSize: 24 }}>คำสั่งซื้อ</h1>
+          <p>จัดการและติดตามคำสั่งซื้อเครื่องประดับของลูกค้า</p>
         </div>
         <div className="staff-page-header__actions">
           <button className="staff-btn staff-btn--ghost">
             <span className="material-symbols-outlined">download</span>
-            Export CSV
+            ส่งออก CSV
           </button>
           <button className="staff-btn staff-btn--primary">
             <span className="material-symbols-outlined">add</span>
-            Create Order
+            สร้างคำสั่งซื้อ
           </button>
         </div>
       </div>
@@ -75,10 +75,10 @@ export default function OrderManagePage() {
             value={paymentFilter}
             onChange={(e) => setPaymentFilter(e.target.value)}
           >
-            <option value="">All Payment Status</option>
-            <option value="paid">Paid</option>
-            <option value="pending">Pending</option>
-            <option value="refunded">Refunded</option>
+            <option value="">สถานะการชำระเงินทั้งหมด</option>
+            <option value="paid">ชำระแล้ว</option>
+            <option value="pending">รอชำระ</option>
+            <option value="refunded">คืนเงินแล้ว</option>
           </select>
 
           <select
@@ -86,18 +86,18 @@ export default function OrderManagePage() {
             value={fulfillmentFilter}
             onChange={(e) => setFulfillmentFilter(e.target.value)}
           >
-            <option value="">All Fulfillment</option>
-            <option value="unfulfilled">Unfulfilled</option>
-            <option value="processing">Processing</option>
-            <option value="shipped">Shipped</option>
-            <option value="delivered">Delivered</option>
+            <option value="">สถานะการจัดส่งทั้งหมด</option>
+            <option value="unfulfilled">ยังไม่จัดส่ง</option>
+            <option value="processing">กำลังเตรียมสินค้า</option>
+            <option value="shipped">จัดส่งแล้ว</option>
+            <option value="delivered">สำเร็จ</option>
           </select>
 
           <div className="staff-input" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span className="material-symbols-outlined" style={{ fontSize: 18 }}>calendar_today</span>
             <input
               type="text"
-              placeholder="Last 30 Days"
+              placeholder="30 วันที่ผ่านมา"
               readOnly
               style={{ border: 'none', outline: 'none', width: 96 }}
             />
@@ -106,9 +106,9 @@ export default function OrderManagePage() {
 
         {paymentFilter && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 11, color: 'var(--staff-text-muted)' }}>Active Filters:</span>
+            <span style={{ fontSize: 11, color: 'var(--staff-text-muted)' }}>ตัวกรองที่ใช้งาน:</span>
             <div className="staff-chip">
-              Status: {paymentFilter}
+              สถานะ: {paymentFilter}
               <button onClick={() => setPaymentFilter('')} aria-label="ล้างตัวกรอง">
                 <span className="material-symbols-outlined" style={{ fontSize: 14 }}>close</span>
               </button>
@@ -123,13 +123,13 @@ export default function OrderManagePage() {
           <table className="staff-table">
             <thead>
               <tr>
-                <th>Order ID</th>
-                <th>Date</th>
-                <th>Customer</th>
-                <th>Payment Status</th>
-                <th>Fulfillment</th>
-                <th className="align-right">Total</th>
-                <th className="align-right">Actions</th>
+                <th>รหัสคำสั่งซื้อ</th>
+                <th>วันที่</th>
+                <th>ลูกค้า</th>
+                <th>สถานะการชำระเงิน</th>
+                <th>สถานะการจัดส่ง</th>
+                <th className="align-right">ยอดรวม</th>
+                <th className="align-right">การจัดการ</th>
               </tr>
             </thead>
             <tbody>
@@ -170,10 +170,10 @@ export default function OrderManagePage() {
                   </td>
                   <td className="align-right">
                     <div className="staff-table__actions">
-                      <button className="staff-icon-btn" title="View Details">
+                      <button className="staff-icon-btn" title="ดูรายละเอียด">
                         <span className="material-symbols-outlined" style={{ fontSize: 18 }}>visibility</span>
                       </button>
-                      <button className="staff-icon-btn" title="Print Invoice">
+                      <button className="staff-icon-btn" title="พิมพ์ใบเสร็จ">
                         <span className="material-symbols-outlined" style={{ fontSize: 18 }}>print</span>
                       </button>
                     </div>

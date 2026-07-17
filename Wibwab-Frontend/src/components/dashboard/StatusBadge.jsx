@@ -18,10 +18,10 @@ const STATUS_MAP = {
   cancelled: { label: 'ยกเลิก', variant: 'error' },
 
   // สถานะทั่วไปที่ใช้ในดีไซน์ต้นฉบับ
-  processing: { label: 'Processing', variant: 'info' },
-  refunded: { label: 'Refunded', variant: 'error' },
-  pending: { label: 'Pending', variant: 'warning' },
-  unfulfilled: { label: 'Unfulfilled', variant: 'neutral' },
+  processing: { label: 'กำลังดำเนินการ', variant: 'info' },
+  refunded: { label: 'คืนเงินแล้ว', variant: 'error' },
+  pending: { label: 'รอดำเนินการ', variant: 'warning' },
+  unfulfilled: { label: 'ยังไม่จัดส่ง', variant: 'neutral' },
 };
 
 export default function StatusBadge({ status, label, variant }) {

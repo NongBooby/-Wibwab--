@@ -1,4 +1,3 @@
-// pages/staff/StaffLoginPage.jsx — ธีม Teal #0F766E / sidebar #134E4A / พื้น #F6F8F8 (ยังไม่ implement)
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../../styles/staff.css';
@@ -12,7 +11,12 @@ import '../../styles/staff.css';
  * เมื่อ backend มี POST /api/auth/login (role=staff) พร้อมแล้ว ให้แทนที่ handleSubmit
  * ด้วยการเรียก API จริง เก็บ JWT ผ่าน AuthContext แล้วค่อย navigate ไป dashboard
  */
-export default function StaffLoginPage() {
+export default function StaffLoginPage({
+  redirectTo = '/staff/dashboard',
+  backTo = '/',
+  backLabel = '← กลับหน้าลูกค้า',
+  portalLabel = 'ระบบพนักงาน',
+}) {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
@@ -40,16 +44,16 @@ export default function StaffLoginPage() {
     //   setError('อีเมลหรือรหัสผ่านไม่ถูกต้อง');
     // }
 
-    navigate('/staff/dashboard');
+    navigate(redirectTo);
   }
 
   return (
     <div className="staff-app staff-login">
       <div className="staff-login__card">
         <div className="staff-login__brand">
-          <div className="staff-login__logo">L</div>
-          <h1>LuxeJewel</h1>
-          <p>Staff Portal</p>
+          <div className="staff-login__logo">ว</div>
+          <h1>วิบวับ</h1>
+          <p>{portalLabel}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="staff-login__form">
@@ -59,7 +63,7 @@ export default function StaffLoginPage() {
               id="email"
               type="email"
               className="staff-form-control"
-              placeholder="staff@luxejewel.com"
+              placeholder="staff@wibwab.com"
               value={form.email}
               onChange={handleChange('email')}
               autoComplete="username"
@@ -90,7 +94,7 @@ export default function StaffLoginPage() {
           หน้านี้เป็นเวอร์ชันชั่วคราว — ยังไม่ตรวจสอบรหัสผ่านจริงจนกว่า backend auth จะเสร็จ
         </p>
 
-        <Link to="/" className="staff-login__back">← กลับหน้าลูกค้า</Link>
+        <Link to={backTo} className="staff-login__back">{backLabel}</Link>
       </div>
 
       <style>{`

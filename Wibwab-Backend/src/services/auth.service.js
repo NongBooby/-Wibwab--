@@ -65,4 +65,11 @@ async function getMe(userId) {
   return rows[0];
 }
 
-module.exports = { register, login, getMe };
+// ระบบใช้ JWT แบบ stateless (ไม่มี session เก็บฝั่ง server) จึง "logout" จริง ๆ
+// คือให้ฝั่ง client ทิ้ง token ทิ้งไป — ฟังก์ชันนี้มีไว้เผื่ออนาคตอยากทำ token blacklist
+// หรือบันทึกเวลาที่ผู้ใช้ออกจากระบบ ตอนนี้แค่ยืนยันว่าคำขอถูกต้อง (ผ่าน verifyToken แล้ว)
+async function logout(userId) {
+  return { message: 'ออกจากระบบสำเร็จ' };
+}
+
+module.exports = { register, login, getMe, logout };

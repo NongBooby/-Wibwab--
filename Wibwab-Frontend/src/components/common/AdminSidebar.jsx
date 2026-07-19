@@ -18,8 +18,8 @@ export default function AdminSidebar() {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
-  function handleSignOut() {
-    logout();
+  async function handleSignOut() {
+    await logout();
     navigate('/admin/login', { replace: true });
   }
 

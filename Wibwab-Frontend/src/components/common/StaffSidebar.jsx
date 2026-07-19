@@ -1,4 +1,5 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 // เมนูฝั่งพนักงาน — เพิ่ม/ลด item ได้ตรงนี้ที่เดียว
 const NAV_ITEMS = [
@@ -13,6 +14,14 @@ const NAV_ITEMS = [
  * ใช้ NavLink ของ react-router-dom เพื่อไฮไลต์เมนูที่ active อัตโนมัติ
  */
 export default function StaffSidebar() {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  async function handleSignOut() {
+    await logout();
+    navigate('/staff/login', { replace: true });
+  }
+
   return (
     <nav className="staff-sidebar">
       <div className="staff-sidebar__brand">
@@ -38,12 +47,18 @@ export default function StaffSidebar() {
         ))}
       </div>
 
-      <div className="staff-sidebar__status">
-        <p>สถานะระบบ</p>
-        <div className="staff-sidebar__status-row">
-          <span className="staff-sidebar__dot" />
-          <span>ระบบทำงานปกติ</span>
-        </div>
+
+
+      <div className="staff-sidebar__footer">
+        <button
+          type="button"
+          onClick={handleSignOut}
+          className="staff-sidebar__link"
+          style={{ width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}
+        >
+          <span className="material-symbols-outlined">logout</span>
+          <span>ออกจากระบบ</span>
+        </button>
       </div>
     </nav>
   );

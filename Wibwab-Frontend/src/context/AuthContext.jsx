@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { login as apiLogin, register as apiRegister } from '../api/auth.api';
+import { login as apiLogin, register as apiRegister, logout as apiLogout } from '../api/auth.api';
 
 const AuthContext = createContext(null);
 
@@ -47,11 +47,18 @@ export function AuthProvider({ children }) {
     return response;
   };
 
-  const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    setToken(null);
-    setUser(null);
+  const logout = async () => {
+    try {
+      // แจ้ง backend ด้วย (เผื่ออนาคตทำ token blacklist/logging) — ไม่บล็อกการ logout ถ้า request ล้มเหลว
+      await apiLogout();
+    } catch (err) {
+      // เพิกเฉย: ต่อให้เรียก backend ไม่สำเร็จ (เช่น token หมดอายุ/เน็ตหลุด) ก็ยัง logout ฝั่ง client ได้เสมอ
+    } finally {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      setToken(null);
+      setUser(null);
+    }
   };
 
   const value = {

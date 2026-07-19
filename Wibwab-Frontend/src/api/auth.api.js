@@ -30,3 +30,13 @@ export const getMe = async () => {
   const response = await client.get('/api/auth/me');
   return response.data;
 };
+
+/**
+ * แจ้ง backend ว่าผู้ใช้ออกจากระบบ (ระบบเป็น JWT แบบ stateless
+ * จึงไม่มีอะไรให้ลบฝั่ง server แต่เรียกไว้เผื่ออนาคตทำ token blacklist/logging)
+ * @returns {Promise<{success: boolean, data: {message: string}}>}
+ */
+export const logout = async () => {
+  const response = await client.post('/api/auth/logout');
+  return response.data;
+};

@@ -217,6 +217,12 @@
   background-color: #3cddc7;
 }
 
+.staff-sidebar__footer {
+  padding: 8px 0 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 4px;
+}
+
 /* ---------- Topbar ---------- */
 
 .staff-topbar {

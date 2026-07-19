@@ -18,6 +18,14 @@ import InventoryPage from './pages/staff/InventoryPage';
 import ProductManagePage from './pages/staff/ProductManagePage';
 import ProtectedRoute from './components/common/ProtectedRoute';
 
+// ── ฝั่งแอดมิน/ผู้บริหาร (ธีม Slate + ทอง) ──
+import AdminLayout from './components/common/AdminLayout';
+import AdminLoginPage from './pages/admin/AdminLoginPage';
+import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import SalesReportPage from './pages/admin/SalesReportPage';
+import StockReportPage from './pages/admin/StockReportPage';
+import ProfitReportPage from './pages/admin/ProfitReportPage';
+
 // หน้าชั่วคราวสำหรับ route ที่ยังไม่ implement — กันหน้าขาวตอนกดลิงก์ในเมนู
 function ComingSoon() {
   return (
@@ -61,7 +69,23 @@ function App() {
         <Route path="products/:id" element={<ProductManagePage />} />
       </Route>
 
-      {/* ── ฝั่งแอดมิน (ธีม Slate) ── TODO: /admin/* */}
+      {/* ── ฝั่งแอดมิน/ผู้บริหาร (ธีม Slate + ทอง) ── */}
+      <Route path="/admin/login" element={<AdminLoginPage />} />
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute role="admin">
+            <AdminLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<AdminDashboardPage />} />
+        <Route path="dashboard" element={<AdminDashboardPage />} />
+        <Route path="sales-report" element={<SalesReportPage />} />
+        <Route path="stock-report" element={<StockReportPage />} />
+        <Route path="profit-report" element={<ProfitReportPage />} />
+      </Route>
+
 
       {/* route อื่นที่ยังไม่มี → หน้าอยู่ระหว่างพัฒนา */}
       <Route path="*" element={<ComingSoon />} />

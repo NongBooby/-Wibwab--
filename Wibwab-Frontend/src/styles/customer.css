@@ -2416,3 +2416,211 @@
   width: 100%;
   justify-content: center;
 }
+
+/* ==========================================================================
+   Login Page (login-*)
+   ========================================================================== */
+
+.login-page-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--surface);
+}
+
+/* ─── แผงรูปภาพฝั่งซ้าย (แสดงเฉพาะจอใหญ่) ─── */
+.login-image-panel {
+  display: none; /* ซ่อนเป็น default */
+  position: relative;
+  background-color: var(--surface-variant);
+}
+
+.login-image-panel img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ─── แผงฟอร์มฝั่งขวา ─── */
+.login-form-panel {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-form-wrapper {
+  width: 100%;
+  max-width: 28rem; /* 448px */
+}
+
+.login-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.login-title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.login-subtitle {
+  font-size: 16px;
+  color: var(--on-surface-variant);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.login-input-group {
+  position: relative;
+}
+
+.login-input-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--on-surface-variant);
+  margin-bottom: 4px;
+}
+
+/* Input แบบเส้นใต้ (แปลงจาก @apply) */
+.minimal-input {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--primary-container);
+  padding: 8px 0;
+  color: var(--on-surface);
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.minimal-input:focus {
+  outline: none;
+  border-bottom-color: var(--secondary);
+}
+
+.minimal-input::placeholder {
+  color: var(--on-surface-variant);
+  opacity: 0.5;
+}
+
+.login-password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login-password-toggle {
+  position: absolute;
+  right: 0;
+  color: var(--on-surface-variant);
+  transition: color 0.2s;
+}
+
+.login-password-toggle:hover {
+  color: var(--primary);
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+}
+
+.login-remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--on-surface-variant);
+  cursor: pointer;
+}
+
+.login-options a {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.login-submit-btn {
+  width: 100%;
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 16px 24px;
+  transition: opacity 0.2s;
+}
+
+.login-submit-btn:hover {
+  opacity: 0.9;
+}
+
+.login-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-error-msg {
+  color: var(--error);
+  font-size: 14px;
+  text-align: center;
+  margin-top: -16px;
+}
+
+/* ลิงก์พาไปหน้า login พนักงาน (แสดงเมื่อ staff/admin มา login ผิดประตู) */
+.login-staff-link {
+  text-align: center;
+  margin-top: -8px;
+  font-size: 14px;
+}
+
+.login-staff-link a {
+  color: var(--staff-teal);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.login-register-link {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--on-surface-variant);
+}
+
+.login-register-link a {
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Responsive: จอใหญ่ (768px ขึ้นไป) */
+@media (min-width: 768px) {
+  .login-image-panel {
+    display: block;
+    width: 50%;
+  }
+  .login-form-panel {
+    width: 50%;
+  }
+  .login-header {
+    text-align: left;
+  }
+}

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { getProfitReport } from '../../api/admin.api';
+import { getProfitReport, exportProfitReport } from '../../api/admin.api';
+import ExportMenu from '../../components/common/ExportMenu';
 
 const MONTH_LABELS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
 const CATEGORY_COLORS = ['#b08d57', '#1e293b', '#64748b', '#e2e8f0', '#94a3b8', '#0f766e'];
@@ -96,10 +97,10 @@ export default function ProfitReportPage() {
           <span className="admin-link-btn">
             {defaultRange.from} — {defaultRange.to}
           </span>
-          <button className="admin-btn admin-btn--primary">
-            <span className="material-symbols-outlined">download</span>
-            ส่งออกเป็น Excel
-          </button>
+          <ExportMenu
+            onExport={(format) => exportProfitReport({ from: defaultRange.from, to: defaultRange.to, format })}
+            label="ส่งออก"
+          />
         </div>
       </div>
 

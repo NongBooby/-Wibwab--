@@ -15,4 +15,9 @@ router.get('/reports/sales', adminController.salesReport);
 router.get('/reports/stock', adminController.stockReport);
 router.get('/reports/profit', adminController.profitReport);
 
+// ── ส่งออกรายงาน (Excel/PDF) ──
+router.get('/reports/sales/export', adminController.salesReportExport);
+router.get('/reports/stock/export', adminController.stockReportExport);
+router.get('/reports/profit/export', adminController.profitReportExport);
+
 module.exports = router;

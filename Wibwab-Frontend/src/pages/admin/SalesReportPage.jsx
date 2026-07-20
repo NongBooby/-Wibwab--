@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { getSalesReport } from '../../api/admin.api';
+import { getSalesReport, exportSalesReport } from '../../api/admin.api';
 import { getStaffCategories } from '../../api/staff.api';
+import ExportMenu from '../../components/common/ExportMenu';
 
 function formatCurrency(n) {
   return `฿ ${Number(n || 0).toLocaleString('th-TH', { maximumFractionDigits: 0 })}`;
@@ -98,10 +99,13 @@ export default function SalesReportPage() {
               ))}
             </select>
           </div>
-          <button className="admin-btn admin-btn--primary">
-            <span className="material-symbols-outlined">download</span>
-            ส่งออกเป็น Excel
-          </button>
+          <ExportMenu
+            onExport={(format) => {
+              const selected = monthOptions.find((m) => m.value === monthValue) || monthOptions[0];
+              return exportSalesReport({ from: selected.from, to: selected.to, category: category || undefined, format });
+            }}
+            label="ส่งออก"
+          />
         </div>
       </div>
 

@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
-import { getStockReport } from '../../api/admin.api';
+import { getStockReport, exportStockReport } from '../../api/admin.api';
 import { updateVariantStock } from '../../api/staff.api';
+import ExportMenu from '../../components/common/ExportMenu';
 
 function formatCurrency(n) {
   return `฿ ${Number(n || 0).toLocaleString('th-TH', { maximumFractionDigits: 0 })}`;
@@ -70,10 +71,7 @@ export default function StockReportPage() {
           <div className="admin-filters">
             <span className="admin-link-btn">ช่วงวันที่</span>
           </div>
-          <button className="admin-btn admin-btn--primary">
-            <span className="material-symbols-outlined">download</span>
-            ส่งออก
-          </button>
+          <ExportMenu onExport={(format) => exportStockReport({ format })} label="ส่งออก" />
         </div>
       </div>
 

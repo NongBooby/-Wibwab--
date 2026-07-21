@@ -1,6 +1,13 @@
 import { useState } from 'react';
-// TODO: ต่อกับ AuthContext จริง เพื่อดึงชื่อ/รูป staff ที่ login อยู่ และทำปุ่ม Sign out
-// import { useStaffAuth as useAuth } from '../../context/StaffAuthContext';
+import { useStaffAuth as useAuth } from '../../context/StaffAuthContext';
+
+// สร้างอักษรย่อจากชื่อ-นามสกุลจริง (เช่น "สมชาย ใจดี" → "สจ") ไว้โชว์ตอนไม่มีรูปโปรไฟล์
+function getInitials(fullName) {
+  if (!fullName) return '?';
+  const parts = fullName.trim().split(/\s+/);
+  const initials = parts.slice(0, 2).map((p) => p.charAt(0)).join('');
+  return initials.toUpperCase() || '?';
+}
 
 /**
  * แถบด้านบนของ Staff Portal — มีช่องค้นหา, ปุ่มแจ้งเตือน/ช่วยเหลือ, และผู้ใช้ปัจจุบัน
@@ -12,7 +19,7 @@ import { useState } from 'react';
  */
 export default function StaffTopbar({ title = 'ระบบพนักงาน วิบวับ', onSearch, hasAlerts = true }) {
   const [query, setQuery] = useState('');
-  // const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   function handleChange(e) {
     setQuery(e.target.value);
@@ -46,9 +53,9 @@ export default function StaffTopbar({ title = 'ระบบพนักงาน
           <span className="material-symbols-outlined">help_outline</span>
         </button>
         <div className="staff-topbar__user">
+          <span className="staff-topbar__username">{user?.full_name ?? 'พนักงาน'}</span>
           <div className="staff-topbar__avatar staff-topbar__avatar--fallback">
-            {/* {user?.initials ?? 'JD'} */}
-            JD
+            {getInitials(user?.full_name)}
           </div>
         </div>
       </div>

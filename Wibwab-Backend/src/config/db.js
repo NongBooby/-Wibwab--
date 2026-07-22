@@ -8,6 +8,10 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD || 'wibwab_pass',
   database: process.env.DB_NAME || 'wibwab_db',
   charset: 'utf8mb4',
+  // container MySQL เป็น UTC เสมอ (ไม่ได้ตั้ง TZ ใน docker-compose.yml) — ถ้าไม่ระบุ mysql2 จะ default
+  // เป็น 'local' คือตีความค่าที่ได้จาก DB ว่าเป็นเวลาโซนของเครื่อง Node เอง ทำให้ TIMESTAMP เพี้ยนไปตาม
+  // ส่วนต่างโซนเวลา (เช่น เครื่อง dev อยู่ ICT/+7 → เวลาที่ได้จะคลาดเคลื่อนไป 7 ชม.) ระบุ 'Z' ให้ตรงกับความจริง
+  timezone: 'Z',
   waitForConnections: true,
   connectionLimit: 10,
 });

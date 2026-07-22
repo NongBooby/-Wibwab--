@@ -196,9 +196,11 @@ async function createOrder(userId, body) {
     // สำเร็จครบทุกขั้น → commit / ถ้าพลาดข้อใดข้อหนึ่ง catch ด้านล่างจะ rollback ทั้งหมด
     await conn.commit();
 
+    // ใช้ชื่อจริงตามบัญชีที่สั่งซื้อ (ไม่ใช่ชื่อผู้รับปลายทางใน shipping_name — อาจเป็นคนละคนกันถ้าสั่งไปให้คนอื่น)
+    const [[customer]] = await pool.query('SELECT full_name FROM users WHERE id = ?', [userId]);
     notifyStaff({
       type: NOTIFICATION_TYPE.NEW_ORDER,
-      message: `${shipping_name} สร้างคำสั่งซื้อใหม่ ${formatOrderCode(orderId)}`,
+      message: `${customer.full_name} สร้างคำสั่งซื้อใหม่ ${formatOrderCode(orderId)}`,
       order_id: orderId,
     });
 
@@ -269,7 +271,13 @@ async function getMyOrders(userId) {
 
 // ── แนบสลิปโอนเงิน (เจ้าของออเดอร์ + สถานะรอชำระเท่านั้น) ──
 async function attachSlip(userId, orderId, filePath) {
-  const [rows] = await pool.execute('SELECT user_id, status, shipping_name FROM orders WHERE id = ?', [orderId]);
+  const [rows] = await pool.execute(
+    `SELECT o.user_id, o.status, u.full_name
+       FROM orders o
+       JOIN users u ON u.id = o.user_id
+      WHERE o.id = ?`,
+    [orderId]
+  );
   if (rows.length === 0) throw httpError(404, 'ไม่พบคำสั่งซื้อ');
   if (rows[0].user_id !== userId) throw httpError(403, 'ไม่ใช่คำสั่งซื้อของคุณ');
   if (rows[0].status !== ORDER_STATUS.PENDING_PAYMENT) {
@@ -280,7 +288,7 @@ async function attachSlip(userId, orderId, filePath) {
 
   notifyStaff({
     type: NOTIFICATION_TYPE.SLIP_UPLOADED,
-    message: `${rows[0].shipping_name} แนบสลิปโอนเงินสำหรับคำสั่งซื้อ ${formatOrderCode(orderId)}`,
+    message: `${rows[0].full_name} แนบสลิปโอนเงินสำหรับคำสั่งซื้อ ${formatOrderCode(orderId)}`,
     order_id: Number(orderId),
   });
 
@@ -293,7 +301,7 @@ async function cancelOrder(userId, orderId) {
   try {
     await conn.beginTransaction();
 
-    const [rows] = await conn.execute('SELECT user_id, status, shipping_name FROM orders WHERE id = ? FOR UPDATE', [orderId]);
+    const [rows] = await conn.execute('SELECT user_id, status FROM orders WHERE id = ? FOR UPDATE', [orderId]);
     if (rows.length === 0) throw httpError(404, 'ไม่พบคำสั่งซื้อ');
     if (rows[0].user_id !== userId) throw httpError(403, 'ไม่ใช่คำสั่งซื้อของคุณ');
     if (rows[0].status !== ORDER_STATUS.PENDING_PAYMENT) {
@@ -315,9 +323,10 @@ async function cancelOrder(userId, orderId) {
     await conn.execute('UPDATE orders SET status = ? WHERE id = ?', [ORDER_STATUS.CANCELLED, orderId]);
     await conn.commit();
 
+    const [[customer]] = await pool.query('SELECT full_name FROM users WHERE id = ?', [userId]);
     notifyStaff({
       type: NOTIFICATION_TYPE.ORDER_CANCELLED,
-      message: `${rows[0].shipping_name} ยกเลิกคำสั่งซื้อ ${formatOrderCode(orderId)}`,
+      message: `${customer.full_name} ยกเลิกคำสั่งซื้อ ${formatOrderCode(orderId)}`,
       order_id: Number(orderId),
     });
 

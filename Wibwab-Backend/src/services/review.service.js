@@ -16,8 +16,9 @@ async function createReview(userId, { product_id, order_id, rating, comment }) {
 
   // เงื่อนไขตามกติกา: ต้องเป็นออเดอร์ของตัวเอง สถานะ delivered และมีสินค้าชิ้นนี้อยู่ในออเดอร์จริง
   const [rows] = await pool.execute(
-    `SELECT o.id, o.shipping_name, p.name AS product_name
+    `SELECT o.id, u.full_name, p.name AS product_name
        FROM orders o
+       JOIN users u ON u.id = o.user_id
        JOIN order_items oi ON oi.order_id = o.id
        JOIN product_variants v ON v.id = oi.variant_id
        JOIN products p ON p.id = v.product_id
@@ -37,7 +38,7 @@ async function createReview(userId, { product_id, order_id, rating, comment }) {
 
     notifyStaff({
       type: NOTIFICATION_TYPE.NEW_REVIEW,
-      message: `${rows[0].shipping_name} รีวิวสินค้า "${rows[0].product_name}" (${score} ดาว) ${formatOrderCode(order_id)}`,
+      message: `${rows[0].full_name} รีวิวสินค้า "${rows[0].product_name}" (${score} ดาว) ${formatOrderCode(order_id)}`,
       order_id: Number(order_id),
     });
 

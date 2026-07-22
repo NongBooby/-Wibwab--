@@ -7,10 +7,16 @@ const { NOTIFICATION_TYPE } = require('../utils/notificationType');
 const notificationService = require('./notification.service');
 
 // แจ้งเตือน staff แบบ fire-and-forget — พลาดได้โดยไม่กระทบ flow หลักของลูกค้า
+// export ไว้ให้ review.service.js เรียกใช้ร่วมด้วย (กันเขียน catch/log ซ้ำ)
 function notifyStaff(payload) {
   notificationService.createNotification(payload).catch((err) => {
     console.error('สร้างการแจ้งเตือน staff ไม่สำเร็จ:', err);
   });
+}
+
+// เลขออเดอร์ที่โชว์ในข้อความแจ้งเตือน — รูปแบบเดียวกันทุกจุดที่อ้างถึงออเดอร์
+function formatOrderCode(orderId) {
+  return `#ORD-${String(orderId).padStart(4, '0')}`;
 }
 
 // ── ตรวจโค้ดส่วนลด (ใช้ร่วมกันทั้ง validate-promo และตอนสร้างออเดอร์จริง) ──
@@ -192,7 +198,7 @@ async function createOrder(userId, body) {
 
     notifyStaff({
       type: NOTIFICATION_TYPE.NEW_ORDER,
-      message: `${shipping_name} สร้างคำสั่งซื้อใหม่ #ORD-${String(orderId).padStart(4, '0')}`,
+      message: `${shipping_name} สร้างคำสั่งซื้อใหม่ ${formatOrderCode(orderId)}`,
       order_id: orderId,
     });
 
@@ -274,7 +280,7 @@ async function attachSlip(userId, orderId, filePath) {
 
   notifyStaff({
     type: NOTIFICATION_TYPE.SLIP_UPLOADED,
-    message: `${rows[0].shipping_name} แนบสลิปโอนเงินสำหรับคำสั่งซื้อ #ORD-${String(orderId).padStart(4, '0')}`,
+    message: `${rows[0].shipping_name} แนบสลิปโอนเงินสำหรับคำสั่งซื้อ ${formatOrderCode(orderId)}`,
     order_id: Number(orderId),
   });
 
@@ -311,7 +317,7 @@ async function cancelOrder(userId, orderId) {
 
     notifyStaff({
       type: NOTIFICATION_TYPE.ORDER_CANCELLED,
-      message: `${rows[0].shipping_name} ยกเลิกคำสั่งซื้อ #ORD-${String(orderId).padStart(4, '0')}`,
+      message: `${rows[0].shipping_name} ยกเลิกคำสั่งซื้อ ${formatOrderCode(orderId)}`,
       order_id: Number(orderId),
     });
 
@@ -324,4 +330,4 @@ async function cancelOrder(userId, orderId) {
   }
 }
 
-module.exports = { createOrder, getMyOrders, attachSlip, cancelOrder, validatePromo };
+module.exports = { createOrder, getMyOrders, attachSlip, cancelOrder, validatePromo, notifyStaff, formatOrderCode };

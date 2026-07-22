@@ -1,13 +1,17 @@
 // context/CartContext.jsx — ตะกร้าสินค้าฝั่ง client เก็บใน localStorage (ยังไม่ sync กับ /api/cart)
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { validatePromoCode } from '../api/order.api';
+import { useCustomerAuth } from './CustomerAuthContext';
 
-const STORAGE_KEY = 'wibwab_cart';
+// ตะกร้าแยกคีย์ตามผู้ใช้ที่ล็อกอิน — กันบัญชีลูกค้าคนอื่นเห็นตะกร้าของกันและกัน
+function getStorageKey(userId) {
+  return userId ? `wibwab_cart_user_${userId}` : 'wibwab_cart_guest';
+}
 
 // โหลดตะกร้าที่บันทึกไว้ (กัน JSON พังด้วย try/catch)
-function loadSaved() {
+function loadSaved(storageKey) {
   try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    const saved = JSON.parse(localStorage.getItem(storageKey));
     return {
       items: Array.isArray(saved?.items) ? saved.items : [],
       promo: saved?.promo ?? null,
@@ -20,13 +24,24 @@ function loadSaved() {
 const CartContext = createContext(null);
 
 export function CartProvider({ children }) {
-  const [items, setItems] = useState(() => loadSaved().items);
-  const [promo, setPromo] = useState(() => loadSaved().promo);
+  const { user } = useCustomerAuth();
+  const storageKey = getStorageKey(user?.id);
+
+  const [items, setItems] = useState(() => loadSaved(storageKey).items);
+  const [promo, setPromo] = useState(() => loadSaved(storageKey).promo);
+
+  // ผู้ใช้เปลี่ยน (ล็อกอิน/ล็อกเอาท์/สลับบัญชี) — โหลดตะกร้าของคีย์ใหม่มาแทนที่ state ปัจจุบัน
+  useEffect(() => {
+    const saved = loadSaved(storageKey);
+    setItems(saved.items);
+    setPromo(saved.promo);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storageKey]);
 
   // บันทึกทุกครั้งที่ตะกร้าเปลี่ยน — refresh หน้าแล้วของไม่หาย
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ items, promo }));
-  }, [items, promo]);
+    localStorage.setItem(storageKey, JSON.stringify({ items, promo }));
+  }, [storageKey, items, promo]);
 
   // เพิ่มสินค้า (ถ้า variant เดิมมีอยู่แล้วให้บวกจำนวน) — ไม่ให้เกินสต็อก
   const addItem = (item, qty = 1) => {

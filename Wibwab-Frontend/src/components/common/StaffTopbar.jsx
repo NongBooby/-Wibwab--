@@ -1,17 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useStaffAuth as useAuth } from '../../context/StaffAuthContext';
 import { getStaffNotifications, markNotificationRead, markAllNotificationsRead } from '../../api/staff.api';
 
 const POLL_INTERVAL_MS = 25000;
-
-// สร้างอักษรย่อจากชื่อ-นามสกุลจริง (เช่น "สมชาย ใจดี" → "สจ") ไว้โชว์ตอนไม่มีรูปโปรไฟล์
-function getInitials(fullName) {
-  if (!fullName) return '?';
-  const parts = fullName.trim().split(/\s+/);
-  const initials = parts.slice(0, 2).map((p) => p.charAt(0)).join('');
-  return initials.toUpperCase() || '?';
-}
 
 function timeAgo(iso) {
   const diffMs = Date.now() - new Date(iso).getTime();
@@ -24,15 +15,12 @@ function timeAgo(iso) {
 }
 
 /**
- * แถบด้านบนของ Staff Portal — มีปุ่มแจ้งเตือน (กระดิ่ง) และผู้ใช้ปัจจุบัน
+ * แถบด้านบนของ Staff Portal — บัญชีพนักงานย้ายไปโชว์ที่แถบโลโก้บน Sidebar แล้ว (ดู StaffSidebar.jsx)
+ * topbar นี้เหลือแค่ปุ่มแจ้งเตือน (กระดิ่ง) และช่วยเหลือฝั่งขวา
  *
  * ช่องค้นหาย้ายไปอยู่เฉพาะหน้าคำสั่งซื้อ (OrderManagePage) แล้ว — topbar นี้ไม่มีช่องค้นหาส่วนกลางอีกต่อไป
- *
- * props:
- *   title - ข้อความหัวข้อที่โชว์ตอนจอมือถือ (เช่น "Orders")
  */
-export default function StaffTopbar({ title = 'ระบบพนักงาน วิบวับ' }) {
-  const { user } = useAuth();
+export default function StaffTopbar() {
   const navigate = useNavigate();
 
   const [notifications, setNotifications] = useState([]);
@@ -90,7 +78,6 @@ export default function StaffTopbar({ title = 'ระบบพนักงาน
         <button className="staff-icon-btn staff-mobile-only" aria-label="เปิดเมนู">
           <span className="material-symbols-outlined">menu</span>
         </button>
-        <span className="staff-topbar__title">{title}</span>
       </div>
 
       <div className="staff-topbar__right">
@@ -132,12 +119,6 @@ export default function StaffTopbar({ title = 'ระบบพนักงาน
         <button className="staff-icon-btn" aria-label="ช่วยเหลือ">
           <span className="material-symbols-outlined">help_outline</span>
         </button>
-        <div className="staff-topbar__user">
-          <span className="staff-topbar__username">{user?.full_name ?? 'พนักงาน'}</span>
-          <div className="staff-topbar__avatar staff-topbar__avatar--fallback">
-            {getInitials(user?.full_name)}
-          </div>
-        </div>
       </div>
     </header>
   );

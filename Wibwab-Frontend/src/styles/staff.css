@@ -141,18 +141,28 @@
   flex-shrink: 0;
 }
 
+.staff-sidebar__brand-text {
+  min-width: 0;
+}
+
 .staff-sidebar__brand h1 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
-  line-height: 28px;
+  line-height: 24px;
   color: #9cf2e8;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .staff-sidebar__brand p {
   font-size: 11px;
   color: #80d5cb;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .staff-sidebar__nav {
@@ -253,52 +263,6 @@
   gap: 16px;
 }
 
-.staff-topbar__title {
-  font-size: 18px;
-  font-weight: 600;
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .staff-topbar__title {
-    display: block;
-  }
-}
-
-.staff-topbar__search {
-  position: relative;
-  display: none;
-}
-
-@media (min-width: 640px) {
-  .staff-topbar__search {
-    display: block;
-  }
-}
-
-.staff-topbar__search .material-symbols-outlined {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--staff-text-muted);
-  font-size: 18px;
-}
-
-.staff-topbar__search input {
-  padding: 8px 12px 8px 36px;
-  background-color: var(--staff-surface-low);
-  border: 1px solid var(--staff-border);
-  border-radius: var(--staff-radius-md);
-  font-size: 13px;
-  width: 256px;
-  outline: none;
-}
-
-.staff-topbar__search input:focus {
-  border-color: var(--staff-primary);
-}
-
 .staff-topbar__right {
   display: flex;
   align-items: center;
@@ -332,34 +296,6 @@
   height: 8px;
   border-radius: 50%;
   background-color: var(--staff-error);
-}
-
-.staff-topbar__user {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-left: 8px;
-  padding-left: 16px;
-  border-left: 1px solid var(--staff-border);
-  cursor: pointer;
-}
-
-.staff-topbar__avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid var(--staff-border);
-}
-
-.staff-topbar__avatar--fallback {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--staff-primary-soft);
-  color: var(--staff-primary);
-  font-size: 12px;
-  font-weight: 600;
 }
 
 /* ── Notification bell dropdown ── */

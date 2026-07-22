@@ -18,13 +18,13 @@ import '../../styles/staff.css';
  *   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
  *   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
  */
-export default function StaffLayout({ title }) {
+export default function StaffLayout() {
   return (
     <div className="staff-app">
       <div className="staff-layout">
         <StaffSidebar />
         <div className="staff-main">
-          <StaffTopbar title={title} />
+          <StaffTopbar />
           <main className="staff-content">
             <Outlet />
           </main>

@@ -10,12 +10,20 @@ const NAV_ITEMS = [
   { to: '/staff/promos', label: 'โปรโมชั่น', icon: 'local_offer' },
 ];
 
+// สร้างอักษรย่อจากชื่อ-นามสกุลจริง (เช่น "สมชาย ใจดี" → "สจ") ไว้โชว์ตอนไม่มีรูปโปรไฟล์
+function getInitials(fullName) {
+  if (!fullName) return '?';
+  const parts = fullName.trim().split(/\s+/);
+  const initials = parts.slice(0, 2).map((p) => p.charAt(0)).join('');
+  return initials.toUpperCase() || '?';
+}
+
 /**
  * Sidebar นำทางฝั่งพนักงาน (Staff Portal)
  * ใช้ NavLink ของ react-router-dom เพื่อไฮไลต์เมนูที่ active อัตโนมัติ
  */
 export default function StaffSidebar() {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   async function handleSignOut() {
@@ -26,10 +34,10 @@ export default function StaffSidebar() {
   return (
     <nav className="staff-sidebar">
       <div className="staff-sidebar__brand">
-        <div className="staff-sidebar__logo">ว</div>
-        <div>
-          <h1>วิบวับ</h1>
-          <p>ระบบพนักงาน</p>
+        <div className="staff-sidebar__logo">{getInitials(user?.full_name)}</div>
+        <div className="staff-sidebar__brand-text">
+          <h1>{user?.full_name ?? 'พนักงาน'}</h1>
+          <p>{user?.email ?? ''}</p>
         </div>
       </div>
 

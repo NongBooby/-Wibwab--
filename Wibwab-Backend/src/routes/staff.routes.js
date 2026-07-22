@@ -26,6 +26,8 @@ router.put('/inventory/variants/:variantId/stock', staffController.updateVariant
 router.get('/categories', staffController.listCategories);
 router.get('/products', staffController.listProducts);
 router.get('/products/:id', staffController.getProduct);
+router.get('/products/:id/reviews', staffController.getProductReviews);
+router.get('/reviews/:id', staffController.getReview);
 router.post('/products', staffController.createProduct);
 router.put('/products/:id', staffController.updateProduct);
 router.post('/products/:id/images', uploadProductImage.single('image'), staffController.uploadProductImage);

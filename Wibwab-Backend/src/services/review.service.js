@@ -40,6 +40,8 @@ async function createReview(userId, { product_id, order_id, rating, comment }) {
       type: NOTIFICATION_TYPE.NEW_REVIEW,
       message: `${rows[0].full_name} รีวิวสินค้า "${rows[0].product_name}" (${score} ดาว) ${formatOrderCode(order_id)}`,
       order_id: Number(order_id),
+      product_id: Number(product_id),
+      review_id: result.insertId,
     });
 
     return { id: result.insertId, product_id: Number(product_id), rating: score };

@@ -108,6 +108,24 @@ async function getProduct(req, res, next) {
   }
 }
 
+async function getProductReviews(req, res, next) {
+  try {
+    const data = await staffService.getProductReviews(req.params.id);
+    res.json({ success: true, data });
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function getReview(req, res, next) {
+  try {
+    const data = await staffService.getReviewById(req.params.id);
+    res.json({ success: true, data });
+  } catch (err) {
+    next(err);
+  }
+}
+
 async function createProduct(req, res, next) {
   try {
     // form ส่ง variants มาเป็น JSON string เมื่อใช้ multipart/form-data (คู่กับไฟล์รูป)
@@ -237,6 +255,8 @@ module.exports = {
   listCategories,
   listProducts,
   getProduct,
+  getProductReviews,
+  getReview,
   createProduct,
   updateProduct,
   uploadProductImage,

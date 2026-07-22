@@ -459,6 +459,38 @@ async function getStaffProductById(id) {
   };
 }
 
+// รีวิวของสินค้าชิ้นนี้ — ให้ staff เปิดดูตอนคลิกแจ้งเตือน "ลูกค้ารีวิว" (รูปแบบข้อมูลเดียวกับที่ลูกค้าเห็นในหน้าสินค้า)
+async function getProductReviews(productId) {
+  const [products] = await pool.execute('SELECT id FROM products WHERE id = ?', [productId]);
+  if (products.length === 0) throw httpError(404, 'ไม่พบสินค้านี้');
+
+  const [reviews] = await pool.execute(
+    `SELECT r.id, u.full_name AS user_name, r.rating, r.comment,
+            DATE_FORMAT(r.created_at, '%d/%m/%Y') AS created_at
+       FROM reviews r
+       JOIN users u ON u.id = r.user_id
+      WHERE r.product_id = ?
+      ORDER BY r.created_at DESC`,
+    [productId]
+  );
+  return reviews;
+}
+
+// รีวิวใบเดียว (เต็มรายละเอียด) — ใช้เปิดเป็นป๊อปอัพตอน staff คลิกแจ้งเตือน "ลูกค้ารีวิว"
+async function getReviewById(id) {
+  const [rows] = await pool.execute(
+    `SELECT r.id, r.product_id, p.name AS product_name, u.full_name AS user_name, r.rating, r.comment,
+            DATE_FORMAT(r.created_at, '%d/%m/%Y') AS created_at
+       FROM reviews r
+       JOIN users u ON u.id = r.user_id
+       JOIN products p ON p.id = r.product_id
+      WHERE r.id = ?`,
+    [id]
+  );
+  if (rows.length === 0) throw httpError(404, 'ไม่พบรีวิวนี้');
+  return rows[0];
+}
+
 // ตรวจข้อมูล variant ที่ส่งมาจากฟอร์ม (ใช้ทั้งตอนสร้างและแก้ไข)
 function validateVariantInput(v) {
   if (!isNonEmptyString(v.sku)) throw httpError(400, 'กรุณาระบุ SKU ให้ครบทุกตัวเลือกสินค้า');
@@ -642,4 +674,6 @@ module.exports = {
   createProduct,
   updateProduct,
   addProductImage,
+  getProductReviews,
+  getReviewById,
 };

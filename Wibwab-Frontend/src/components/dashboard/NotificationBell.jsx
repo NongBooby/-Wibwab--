@@ -24,6 +24,8 @@ function timeAgo(iso) {
  *   markAllRead          - () => Promise
  *   deleteNotification   - (id) => Promise (optional — ไม่ส่ง prop นี้มา = ไม่แสดงปุ่มลบ)
  *   resolveLink          - (notif) => { to, state } | null — ปลายทางตอนคลิกแจ้งเตือน (null = ไม่ต้องนำทาง)
+ *   onSelect             - (notif) => void (optional) — ถ้าส่งมา จะเรียกแทน resolveLink/navigate ทั้งหมด
+ *                          ใช้ตอนอยากทำอย่างอื่นนอกจากนำทาง เช่นเปิดป๊อปอัพ (mark-read ยังทำงานตามปกติ)
  */
 export default function NotificationBell({
   classPrefix,
@@ -33,6 +35,7 @@ export default function NotificationBell({
   markAllRead,
   deleteNotification,
   resolveLink,
+  onSelect,
 }) {
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
@@ -73,6 +76,10 @@ export default function NotificationBell({
       markRead(notif.id).catch(() => {});
       setNotifications((prev) => prev.map((n) => (n.id === notif.id ? { ...n, is_read: true } : n)));
       setUnreadCount((c) => Math.max(0, c - 1));
+    }
+    if (onSelect) {
+      onSelect(notif);
+      return;
     }
     const link = resolveLink?.(notif);
     if (link) navigate(link.to, { state: link.state });

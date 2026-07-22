@@ -60,6 +60,16 @@ export async function getStaffProduct(id) {
   return res.data;
 }
 
+export async function getStaffProductReviews(id) {
+  const res = await client.get(`/api/staff/products/${id}/reviews`);
+  return res.data;
+}
+
+export async function getStaffReview(id) {
+  const res = await client.get(`/api/staff/reviews/${id}`);
+  return res.data;
+}
+
 export async function createProduct(payload) {
   const res = await client.post('/api/staff/products', payload);
   return res.data;

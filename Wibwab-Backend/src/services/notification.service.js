@@ -9,13 +9,11 @@ const OVERDUE_HOURS = 24;
 
 // เรียกจาก order.service.js / review.service.js / stock.service.js ตอนลูกค้า/ระบบทำรายการ — ไม่ throw ให้ caller
 // เพื่อไม่ให้การแจ้งเตือนพลาดจนกระทบ flow หลัก — ผู้เรียกต้อง .catch เอง
-async function createNotification({ type, message, order_id, variant_id }) {
-  await pool.execute('INSERT INTO notifications (type, message, order_id, variant_id) VALUES (?, ?, ?, ?)', [
-    type,
-    message,
-    order_id || null,
-    variant_id || null,
-  ]);
+async function createNotification({ type, message, order_id, variant_id, product_id, review_id }) {
+  await pool.execute(
+    'INSERT INTO notifications (type, message, order_id, variant_id, product_id, review_id) VALUES (?, ?, ?, ?, ?, ?)',
+    [type, message, order_id || null, variant_id || null, product_id || null, review_id || null]
+  );
 }
 
 // ── แจ้งเตือนสต็อกใกล้หมด (เรียกจาก stock.service.js ตอนปรับสต็อก) ──
@@ -62,7 +60,7 @@ async function sweepOverdueOrders() {
 async function listNotifications(types) {
   const placeholders = types.map(() => '?').join(',');
   const [rows] = await pool.query(
-    `SELECT id, type, message, order_id, variant_id, is_read, created_at
+    `SELECT id, type, message, order_id, variant_id, product_id, review_id, is_read, created_at
        FROM notifications
       WHERE type IN (${placeholders})
       ORDER BY created_at DESC, id DESC

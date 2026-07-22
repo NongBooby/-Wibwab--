@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   createProduct,
   updateProduct,
   getStaffProduct,
+  getStaffProductReviews,
   getStaffCategories,
   uploadProductImage,
 } from '../../api/staff.api';
@@ -31,6 +32,7 @@ function newVariant() {
  */
 export default function ProductManagePage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { id } = useParams(); // ไม่มี = โหมดสร้างใหม่, มี = โหมดแก้ไข
   const isEdit = Boolean(id);
 
@@ -47,6 +49,8 @@ export default function ProductManagePage() {
   const [loading, setLoading] = useState(isEdit);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [reviews, setReviews] = useState([]);
+  const reviewsRef = useRef(null);
 
   useEffect(() => {
     getStaffCategories().then((res) => res.success && setCategories(res.data));
@@ -74,6 +78,21 @@ export default function ProductManagePage() {
       .catch((err) => setError(err.response?.data?.message || 'โหลดข้อมูลสินค้าไม่สำเร็จ'))
       .finally(() => setLoading(false));
   }, [id, isEdit]);
+
+  useEffect(() => {
+    if (!isEdit) return;
+    getStaffProductReviews(id)
+      .then((res) => res.success && setReviews(res.data))
+      .catch(() => {});
+  }, [id, isEdit]);
+
+  // มาจากคลิกแจ้งเตือน "ลูกค้ารีวิว" (StaffTopbar ส่ง state.scrollToReviews มาทาง navigate) — เลื่อนไปดูรีวิวให้เลย
+  useEffect(() => {
+    if (!location.state?.scrollToReviews || loading) return;
+    reviewsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    navigate(location.pathname, { replace: true, state: {} });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading]);
 
   function handleChange(field) {
     return (e) => {
@@ -367,6 +386,32 @@ export default function ProductManagePage() {
           </div>
         </div>
       </form>
+
+      {isEdit && (
+        <div className="staff-card" ref={reviewsRef} style={{ marginTop: 24 }}>
+          <div className="staff-card__header">
+            <h3><span className="material-symbols-outlined">rate_review</span>รีวิวจากลูกค้า ({reviews.length})</h3>
+          </div>
+          <div className="staff-card__body">
+            {reviews.length === 0 && (
+              <p style={{ color: 'var(--staff-text-muted)', margin: 0 }}>ยังไม่มีรีวิวสำหรับสินค้านี้</p>
+            )}
+            {reviews.map((r) => (
+              <div key={r.id} style={{ padding: '12px 0', borderBottom: '1px solid var(--staff-border)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                  <strong>{r.user_name}</strong>
+                  <span style={{ color: 'var(--staff-text-muted)', fontSize: 12 }}>{r.created_at}</span>
+                </div>
+                <div style={{ color: '#eab308', marginBottom: 4 }}>
+                  {'★'.repeat(r.rating)}
+                  <span style={{ color: 'var(--staff-border)' }}>{'★'.repeat(5 - r.rating)}</span>
+                </div>
+                {r.comment && <p style={{ margin: 0 }}>{r.comment}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <style>{`
         .product-editor-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }

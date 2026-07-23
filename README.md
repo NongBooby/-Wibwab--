@@ -453,6 +453,7 @@
 # **15\. งานออกแบบ Wireframe และ UI (ทั้ง 3 ส่วน)**
 
 ตามที่ระบุไว้ในข้อ 12 (สิ่งที่ต้องส่งมอบ) — งานออกแบบ Wireframe และ UI ของระบบครบทั้ง 3 บทบาทผู้ใช้งาน
+https://www.figma.com/design/IA7juX8Hqbx1VnFx0TBDHk/%E0%B9%82%E0%B8%9B%E0%B8%A3%E0%B9%80%E0%B8%88%E0%B8%84?node-id=0-1&t=7W1MlIc182RiEt2u-1
 
 ## **15.1 ส่วนของลูกค้า (Customer)**
 
